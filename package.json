@@ -1,0 +1,38 @@
+{
+  "name": "@itsteddyyo/strategy-pack",
+  "version": "0.0.1",
+  "description": "A Dashboard Strategy to generate a Dashboard with Views per Area autopopulated by entities",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/strategy-pack.umd.js",
+  "module": "./dist/strategy-pack.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/strategy-pack.es.js",
+      "require": "./dist/strategy-pack.umd.js"
+    }
+  },
+  "devDependencies": {
+    "@mdi/js": "^7.4.47",
+    "custom-card-helpers": "^1.9.0",
+    "home-assistant-js-websocket": "^9.3.0",
+    "lit-element": "^2.5.1",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.13"
+  },
+  "scripts": {
+    "build": "tsc --noEmit && vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsteddyyo/strategy-pack.git"
+  },
+  "author": "Florian Saller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itsteddyyo/strategy-pack/issues"
+  },
+  "homepage": "https://github.com/itsteddyyo/strategy-pack#readme"
+}
