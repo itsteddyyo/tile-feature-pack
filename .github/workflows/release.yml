@@ -1,0 +1,26 @@
+name: Release
+permissions:
+    contents: write
+on:
+    push:
+        tags:
+            - "v*.*.*-beta.*"
+            - "v*.*.*"
+jobs:
+    release:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Install
+              run: npm ci
+            - name: Build
+              run: npm run build
+            - name: Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  prerelease: ${{ contains(github.ref, 'beta') }}
+                  make_latest: ${{ ! contains(github.ref, 'beta') }}
+                  generate_release_notes: true
+                  files: dist/*.js
+                  fail_on_unmatched_files: true

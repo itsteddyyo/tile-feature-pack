@@ -1,0 +1,58 @@
+name: Pull Request Labels
+permissions:
+    issues: read
+    pull-requests: write
+on:
+    pull_request_target:
+        types:
+            - opened
+            - edited
+            - reopened
+            - synchronize
+jobs:
+    identify:
+        runs-on: ubuntu-latest
+        outputs:
+            is-technical: ${{ contains(steps.identitfy-labels.outputs.labels, 'technical') }}
+        steps:
+            - name: Remove Labels
+              uses: mondeja/remove-labels-gh-action@v2
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  labels: |
+                      bugfix
+                      technical
+                      enhancement
+                      bug
+            - name: RegEx Issue Labeler
+              uses: github/issue-labeler@v3.4
+              with:
+                  repo-token: ${{ github.token }}
+                  configuration-path: .github/labeler.yml
+                  enable-versioned-regex: 0
+                  sync-labels: 1
+            - name: Identify Labels
+              id: identitfy-labels
+              uses: snnaplab/get-labels-action@v1
+    non-technical:
+        needs:
+            - identify
+        if: ${{ needs.identify.outputs.is-technical == 'false' }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check for linked issues
+              uses: nearform-actions/github-action-check-linked-issues@v1
+              id: check-linked-issues
+            - name: Get the output
+              run: |
+                  if ${{ steps.check-linked-issues.outputs.linked_issues_count }} == 0 ; then
+                    echo "You need to have at least one linked issue!"
+                    exit 1
+                  fi
+            - name: Copy Labels
+              uses: michalvankodev/copy-issue-labels@v1.2.1
+              with:
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  custom-keywords: |
+                      enhancement
+                      bug
