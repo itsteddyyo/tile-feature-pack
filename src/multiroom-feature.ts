@@ -1,13 +1,5 @@
-import {
-    LitElement,
-    html,
-    css,
-    property,
-} from "lit-element";
-import {
-    mdiLink,
-    mdiLinkOff,
-} from "@mdi/js";
+import { LitElement, html, css, property } from "lit-element";
+import { mdiLink, mdiLinkOff } from "@mdi/js";
 import { HassEntity } from "home-assistant-js-websocket";
 import { EntityRegistryEntry } from "./homeassistant/entity_registry";
 import { DeviceRegistryEntry } from "./homeassistant/device_registry";
@@ -21,10 +13,7 @@ interface Config {
 
 const supportsMultiroomTileFeature = (stateObj: HassEntity) => {
     const domain = stateObj.entity_id.split(".")[0];
-    return (
-        domain === "media_player" &&
-        stateObj?.attributes?.mass_player_type == "sync_group"
-    );
+    return domain === "media_player" && stateObj?.attributes?.mass_player_type == "sync_group";
 };
 
 class MultiroomTileFeature extends LitElement {
@@ -59,7 +48,6 @@ class MultiroomTileFeature extends LitElement {
         if (!ev.target) {
             throw Error("Target not set");
         }
-        ev.detail.checked
         const player = ev.target.getAttribute("key");
         const checked = (ev.target as any).checked;
         if (checked) {
@@ -91,12 +79,7 @@ class MultiroomTileFeature extends LitElement {
     }
 
     render() {
-        if (
-            !this.config ||
-            !this.hass ||
-            !this.stateObj ||
-            !supportsMultiroomTileFeature(this.stateObj)
-        ) {
+        if (!this.config || !this.hass || !this.stateObj || !supportsMultiroomTileFeature(this.stateObj)) {
             return null;
         }
 
@@ -105,30 +88,24 @@ class MultiroomTileFeature extends LitElement {
         };
 
         const getDevice = (entity: EntityRegistryEntry) => {
-            return Object.values(this.hass.devices).find(
-                (device) => device.id == entity.device_id
-            );
+            return Object.values(this.hass.devices).find((device) => device.id == entity.device_id);
         };
 
         const getArea = (entity?: EntityRegistryEntry, device?: DeviceRegistryEntry) => {
-            return Object.values(this.hass.areas).find(
-                (area) => area.area_id == (entity?.area_id || device?.area_id)
-            );
+            return Object.values(this.hass.areas).find((area) => area.area_id == (entity?.area_id || device?.area_id));
         };
 
         const group_member_ids: Array<string> = this.stateObj?.attributes?.group_members || [];
 
         const group_players = group_member_ids
             .map((id) => {
-                const matchingEntitiesEntry = Object.entries(this.hass.states).find(
-                    ([_entity_id, entity_state]) => {
-                        if (!!entity_state?.attributes?.mass_player_id) {
-                            return entity_state?.attributes?.mass_player_id == id;
-                        } else {
-                            return false;
-                        }
+                const matchingEntitiesEntry = Object.entries(this.hass.states).find(([_entity_id, entity_state]) => {
+                    if (!!entity_state?.attributes?.mass_player_id) {
+                        return entity_state?.attributes?.mass_player_id == id;
+                    } else {
+                        return false;
                     }
-                );
+                });
                 return !!matchingEntitiesEntry ? matchingEntitiesEntry[0] : null;
             })
             .filter(notNil)
@@ -136,8 +113,7 @@ class MultiroomTileFeature extends LitElement {
             .filter((entity) => !entity.disabled_by && !entity.hidden_by)
             .map((entity) => {
                 const state = this.hass.states[entity.entity_id];
-                const isGroupMember =
-                    (state?.attributes?.group_members || []).length > 0;
+                const isGroupMember = (state?.attributes?.group_members || []).length > 0;
                 const isGroupLeader = isGroupMember && !state?.attributes?.group_leader;
                 return {
                     ...entity,
@@ -147,90 +123,78 @@ class MultiroomTileFeature extends LitElement {
             });
 
         return html`
-        <div>
-          <ha-control-button-group>
-            ${group_players.map((player) => {
-            const entity = player;
-            const device = getDevice(entity);
-            const area = getArea(entity, device);
-            const checked = this.hass.states[player.entity_id]?.state != 'off';
-            return html`
-                <ha-control-switch
-                  key=${player.entity_id}
-                  .checked=${checked}
-                  @change=${this._pressOnOff}
-                >
-                  ${!!this.config.useAreaIcons && !!area
-                    ? html`
-                        <ha-icon 
-                          slot="icon-on" 
-                          .icon=${area.icon}
-                        ></ha-icon>
-                        <ha-icon 
-                          slot="icon-off" 
-                          .icon=${area.icon}
-                        ></ha-icon>
-                        `
-                    : html`
-                        <ha-state-icon
-                          slot="icon-on"
-                          .hass=${this.hass}
-                          .stateObj=${this.hass.states[player.entity_id]}
-                          .state=${this.hass.states[player.entity_id]}
-                        ></ha-state-icon>
-                        <ha-state-icon
-                          slot="icon-off"
-                          .hass=${this.hass}
-                          .stateObj=${this.hass.states[player.entity_id]}
-                          .state=${this.hass.states[player.entity_id]}
-                        ></ha-state-icon>
-                      `}
-                </ha-control-switch>
-              `;
-        })}
-          </ha-control-button-group>
-          <ha-control-button-group>
-            ${group_players.map((player) => {
-            const options = [
-                {
-                    value: "link",
-                    path: mdiLink,
-                },
-                {
-                    value: "unlink",
-                    path: mdiLinkOff,
-                },
-            ];
-            const leader = group_players.find(
-                (entity) => !!entity._isGroupLeader
-            );
-            const linked = player._isGroupMember ? "link" : "unlink";
+            <div>
+                <ha-control-button-group>
+                    ${group_players.map((player) => {
+                        const entity = player;
+                        const device = getDevice(entity);
+                        const area = getArea(entity, device);
+                        const checked = this.hass.states[player.entity_id]?.state != "off";
+                        return html`
+                            <ha-control-switch key=${player.entity_id} .checked=${checked} @change=${this._pressOnOff}>
+                                ${!!this.config.useAreaIcons && !!area
+                                    ? html`
+                                          <ha-icon slot="icon-on" .icon=${area.icon}></ha-icon>
+                                          <ha-icon slot="icon-off" .icon=${area.icon}></ha-icon>
+                                      `
+                                    : html`
+                                          <ha-state-icon
+                                              slot="icon-on"
+                                              .hass=${this.hass}
+                                              .stateObj=${this.hass.states[player.entity_id]}
+                                              .state=${this.hass.states[player.entity_id]}
+                                          ></ha-state-icon>
+                                          <ha-state-icon
+                                              slot="icon-off"
+                                              .hass=${this.hass}
+                                              .stateObj=${this.hass.states[player.entity_id]}
+                                              .state=${this.hass.states[player.entity_id]}
+                                          ></ha-state-icon>
+                                      `}
+                            </ha-control-switch>
+                        `;
+                    })}
+                </ha-control-button-group>
+                <ha-control-button-group>
+                    ${group_players.map((player) => {
+                        const options = [
+                            {
+                                value: "link",
+                                path: mdiLink,
+                            },
+                            {
+                                value: "unlink",
+                                path: mdiLinkOff,
+                            },
+                        ];
+                        const leader = group_players.find((entity) => !!entity._isGroupLeader);
+                        const linked = player._isGroupMember ? "link" : "unlink";
 
-            return html`
-                <ha-control-select
-                  class="item"
-                  key=${player.entity_id}
-                  leader=${leader?.entity_id}
-                  @value-changed=${this._pressLink}
-                  .options=${options}
-                  .value=${linked}
-                  .disabled=${player._isGroupLeader || !leader}
-                >
-                </ha-control-select>
-              `;
-        })}
-          </ha-control-button-group>
-        </div>
-      `;
+                        return html`
+                            <ha-control-select
+                                class="item"
+                                key=${player.entity_id}
+                                leader=${leader?.entity_id}
+                                @value-changed=${this._pressLink}
+                                .options=${options}
+                                .value=${linked}
+                                .disabled=${player._isGroupLeader || !leader}
+                            >
+                            </ha-control-select>
+                        `;
+                    })}
+                </ha-control-button-group>
+            </div>
+        `;
     }
 
     static get styles() {
         return css`
-        ha-control-button-group {
-          margin: 0 12px 12px 12px;
-          --control-button-group-spacing: 12px;
-        }
-      `;
+            ha-control-button-group {
+                margin: 0 12px 12px 12px;
+                --control-button-group-spacing: 12px;
+            }
+        `;
     }
 }
 
