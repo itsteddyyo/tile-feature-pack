@@ -1,38 +1,39 @@
 {
-  "name": "@itsteddyyo/strategy-pack",
+  "name": "@itsteddyyo/tile-feature-pack",
   "version": "0.0.1",
-  "description": "A Dashboard Strategy to generate a Dashboard with Views per Area autopopulated by entities",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/strategy-pack.umd.js",
-  "module": "./dist/strategy-pack.es.js",
+  "main": "./dist/tile-feature-pack.umd.js",
+  "module": "./dist/tile-feature-pack.es.js",
   "exports": {
     ".": {
-      "import": "./dist/strategy-pack.es.js",
-      "require": "./dist/strategy-pack.umd.js"
+      "import": "./dist/tile-feature-pack.es.js",
+      "require": "./dist/tile-feature-pack.umd.js"
     }
   },
   "devDependencies": {
     "@mdi/js": "^7.4.47",
     "custom-card-helpers": "^1.9.0",
-    "home-assistant-js-websocket": "^9.3.0",
+    "home-assistant-js-websocket": "^9.4.0",
     "lit-element": "^2.5.1",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.13"
+    "typescript": "^5.5.4",
+    "vite": "^5.4.3",
+    "@types/lodash": "^4.17.7",
+    "prettier": "^3.3.3"
   },
   "scripts": {
     "build": "tsc --noEmit && vite build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/itsteddyyo/strategy-pack.git"
+    "url": "git+https://github.com/itsteddyyo/tile-feature-pack.git"
   },
   "author": "Florian Saller",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/itsteddyyo/strategy-pack/issues"
+    "url": "https://github.com/itsteddyyo/tile-feature-pack/issues"
   },
-  "homepage": "https://github.com/itsteddyyo/strategy-pack#readme"
+  "homepage": "https://github.com/itsteddyyo/tile-feature-pack#readme"
 }
