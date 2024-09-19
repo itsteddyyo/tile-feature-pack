@@ -3,6 +3,7 @@ import { classMap } from "lit/directives/class-map.js";
 import { mdiRestore } from "@mdi/js";
 import { HassEntity } from "home-assistant-js-websocket";
 import { C_HomeAssistant } from "./util/types";
+import "./homeassistant/ha-bar";
 
 interface ConsumableConfig {
     title: string;
@@ -98,7 +99,8 @@ class ConsumableFeature extends LitElement {
                 margin: 0 12px 12px 12px;
                 --control-button-group-spacing: 12px;
             }
-            secondary {
+            .secondary {
+                max-width: 200px;
                 font-weight: 400;
                 font-size: 12px;
                 line-height: 16px;
