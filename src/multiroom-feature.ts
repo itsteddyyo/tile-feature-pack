@@ -4,7 +4,6 @@ import { HassEntity } from "home-assistant-js-websocket";
 import { EntityRegistryEntry } from "./homeassistant/entity_registry";
 import { DeviceRegistryEntry } from "./homeassistant/device_registry";
 import { C_HomeAssistant } from "./util/types";
-import { notNil } from "./util/helper";
 
 interface Config {
     type: "custom:multiroom-tile-feature";
@@ -95,20 +94,9 @@ class MultiroomTileFeature extends LitElement {
             return Object.values(this.hass.areas).find((area) => area.area_id == (entity?.area_id || device?.area_id));
         };
 
-        const group_member_ids: Array<string> = this.stateObj?.attributes?.group_members || [];
+        const group_member_entity_ids: Array<string> = this.stateObj?.attributes?.group_members || [];
 
-        const group_players = group_member_ids
-            .map((id) => {
-                const matchingEntitiesEntry = Object.entries(this.hass.states).find(([_entity_id, entity_state]) => {
-                    if (!!entity_state?.attributes?.mass_player_id) {
-                        return entity_state?.attributes?.mass_player_id == id;
-                    } else {
-                        return false;
-                    }
-                });
-                return !!matchingEntitiesEntry ? matchingEntitiesEntry[0] : null;
-            })
-            .filter(notNil)
+        const group_players = group_member_entity_ids
             .map(getEntity)
             .filter((entity) => !entity.disabled_by && !entity.hidden_by)
             .map((entity) => {
