@@ -3,7 +3,7 @@ import { classMap } from "lit/directives/class-map.js";
 import { mdiRestore } from "@mdi/js";
 import { HassEntity } from "home-assistant-js-websocket";
 import { C_HomeAssistant } from "./util/types";
-import "./homeassistant/ha-bar";
+import "./homeassistant/cu-bar";
 
 interface ConsumableConfig {
     title: string;
@@ -72,7 +72,7 @@ class ConsumableFeature extends LitElement {
         return html`
             <ha-control-button-group>
                 <span class="secondary">${this.config.config.title}</span>
-                <ha-bar
+                <cu-bar
                     class=${classMap({
                         warning: currentValue < warningValue,
                         error: currentValue < errorValue,
@@ -80,7 +80,7 @@ class ConsumableFeature extends LitElement {
                     .value=${currentValue}
                     .min=${minValue}
                     .max=${maxValue}
-                ></ha-bar>
+                ></cu-bar>
                 <ha-control-button
                     key=${this.config.config.resetEntity}
                     @click=${this._reset}

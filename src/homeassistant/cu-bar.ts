@@ -2,8 +2,8 @@ import { css, CSSResultGroup, LitElement, svg, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { getValueInPercentage, normalize, roundWithOneDecimal } from "./calculate";
 
-@customElement("ha-bar")
-export class HaBar extends LitElement {
+@customElement("cu-bar")
+export class CuBar extends LitElement {
     @property({ type: Number }) public min = 0;
 
     @property({ type: Number }) public max = 100;
@@ -46,6 +46,6 @@ export class HaBar extends LitElement {
 
 declare global {
     interface HTMLElementTagNameMap {
-        "ha-bar": HaBar;
+        "cu-bar": CuBar;
     }
 }
