@@ -12,7 +12,7 @@ interface Config {
 
 const supportsMultiroomTileFeature = (stateObj: HassEntity) => {
     const domain = stateObj.entity_id.split(".")[0];
-    return domain === "media_player" && stateObj?.attributes?.mass_player_type == "sync_group";
+    return domain === "media_player" && stateObj?.attributes?.mass_player_type == "group";
 };
 
 class MultiroomTileFeature extends LitElement {
