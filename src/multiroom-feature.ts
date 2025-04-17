@@ -1,9 +1,9 @@
-import { LitElement, html, css, property } from "lit-element";
-import { mdiLink, mdiLinkOff } from "@mdi/js";
-import { HassEntity } from "home-assistant-js-websocket";
-import { EntityRegistryEntry } from "./homeassistant/entity_registry";
-import { DeviceRegistryEntry } from "./homeassistant/device_registry";
-import { C_HomeAssistant } from "./util/types";
+import {LitElement, html, css, property} from "lit-element";
+import {mdiLink, mdiLinkOff} from "@mdi/js";
+import {HassEntity} from "home-assistant-js-websocket";
+import {EntityRegistryEntry} from "./homeassistant/entity_registry";
+import {DeviceRegistryEntry} from "./homeassistant/device_registry";
+import {C_HomeAssistant} from "./util/types";
 
 interface Config {
     type: "custom:multiroom-tile-feature";
@@ -16,9 +16,9 @@ const supportsMultiroomTileFeature = (stateObj: HassEntity) => {
 };
 
 class MultiroomTileFeature extends LitElement {
-    @property({ attribute: false }) hass!: C_HomeAssistant;
-    @property({ attribute: false }) private config!: Config;
-    @property({ attribute: false }) private stateObj!: HassEntity;
+    @property({attribute: false}) hass!: C_HomeAssistant;
+    @property({attribute: false}) private config!: Config;
+    @property({attribute: false}) private stateObj!: HassEntity;
 
     constructor() {
         super();
@@ -42,7 +42,7 @@ class MultiroomTileFeature extends LitElement {
         this.config = config;
     }
 
-    _pressOnOff(ev: CustomEvent<{ checked: boolean }>) {
+    _pressOnOff(ev: CustomEvent<{checked: boolean}>) {
         ev.stopPropagation();
         if (!ev.target) {
             throw Error("Target not set");
@@ -60,7 +60,7 @@ class MultiroomTileFeature extends LitElement {
         }
     }
 
-    _pressLink(ev: CustomEvent<{ value: string }>) {
+    _pressLink(ev: CustomEvent<{value: string}>) {
         ev.stopPropagation();
         const player = ev.target.getAttribute("key");
         const leader = ev.target.getAttribute("leader");

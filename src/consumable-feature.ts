@@ -1,8 +1,8 @@
-import { LitElement, html, css, property } from "lit-element";
-import { classMap } from "lit/directives/class-map.js";
-import { mdiRestore } from "@mdi/js";
-import { HassEntity } from "home-assistant-js-websocket";
-import { C_HomeAssistant } from "./util/types";
+import {LitElement, html, css, property} from "lit-element";
+import {classMap} from "lit/directives/class-map.js";
+import {mdiRestore} from "@mdi/js";
+import {HassEntity} from "home-assistant-js-websocket";
+import {C_HomeAssistant} from "./util/types";
 import "./homeassistant/cu-bar";
 
 interface ConsumableConfig {
@@ -24,9 +24,9 @@ const supportsConsumableFeature = (stateObj: HassEntity) => {
 };
 
 class ConsumableFeature extends LitElement {
-    @property({ attribute: false }) hass!: C_HomeAssistant;
-    @property({ attribute: false }) private config!: Config;
-    @property({ attribute: false }) private stateObj!: HassEntity;
+    @property({attribute: false}) hass!: C_HomeAssistant;
+    @property({attribute: false}) private config!: Config;
+    @property({attribute: false}) private stateObj!: HassEntity;
 
     constructor() {
         super();
@@ -44,12 +44,12 @@ class ConsumableFeature extends LitElement {
         }
         if (!customElements.get("ha-gauge")) {
             const cardHelpers = await window.loadCardHelpers();
-            cardHelpers.createCardElement({ type: "gauge" });
+            cardHelpers.createCardElement({type: "gauge"});
         }
         this.config = config;
     }
 
-    _reset(ev: CustomEvent<{ value: string }>) {
+    _reset(ev: CustomEvent<{value: string}>) {
         ev.stopPropagation();
         const button = ev.target.getAttribute("key");
         this.hass.callService("button", "press", {

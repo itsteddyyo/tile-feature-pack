@@ -1,14 +1,14 @@
-import { css, CSSResultGroup, LitElement, svg, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { getValueInPercentage, normalize, roundWithOneDecimal } from "./calculate";
+import {css, CSSResultGroup, LitElement, svg, TemplateResult} from "lit";
+import {customElement, property} from "lit/decorators.js";
+import {getValueInPercentage, normalize, roundWithOneDecimal} from "./calculate";
 
 @customElement("cu-bar")
 export class CuBar extends LitElement {
-    @property({ type: Number }) public min = 0;
+    @property({type: Number}) public min = 0;
 
-    @property({ type: Number }) public max = 100;
+    @property({type: Number}) public max = 100;
 
-    @property({ type: Number }) public value!: number;
+    @property({type: Number}) public value!: number;
 
     protected render(): TemplateResult {
         const valuePrecentage = roundWithOneDecimal(getValueInPercentage(normalize(this.value, this.min, this.max), this.min, this.max));
