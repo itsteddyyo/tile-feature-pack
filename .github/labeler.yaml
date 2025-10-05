@@ -1,4 +1,4 @@
 breaking-change:
-    - '.*-   \[[X|x]\] ⚠️ Breaking change.*'
+    - '.*(\[[X|x]\] ⚠️ Breaking change).*'
 technical:
-    - '.*-   \[[X|x]\] 🛠 Purely Technical Changes.*'
+    - '.*(\[[X|x]\] 🛠 Purely Technical Changes|build\(deps).*'
