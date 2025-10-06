@@ -1,4 +1,5 @@
-import {LitElement, html, css, property} from "lit-element";
+import {LitElement, html, css} from "lit-element";
+import {property} from "lit-element/decorators.js";
 import {classMap} from "lit/directives/class-map.js";
 import {mdiRestore} from "@mdi/js";
 import {HassEntity} from "home-assistant-js-websocket";
