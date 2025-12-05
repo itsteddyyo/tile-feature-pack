@@ -20,7 +20,7 @@
     "lit-element": "^4.2.1",
     "prettier": "^3.7.1",
     "typescript": "^5.9.3",
-    "vite": "^7.2.4"
+    "vite": "^7.2.6"
   },
   "scripts": {
     "build": "tsc --noEmit && vite build"
